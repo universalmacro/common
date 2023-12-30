@@ -1,11 +1,16 @@
 package dao
 
 import (
+	"github.com/universalmacro/common/singleton"
 	"gorm.io/gorm"
 )
 
 type Repository[T any] struct {
 	db *gorm.DB
+}
+
+func NewSingletonRepository[T any]() singleton.Singleton[Repository[T]] {
+	return singleton.NewSingleton[Repository[T]](NewRepository[T], singleton.Eager)
 }
 
 func NewRepository[T any]() *Repository[T] {
