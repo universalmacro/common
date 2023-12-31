@@ -33,14 +33,16 @@ func (r Repository[T]) Create(dest *T) (*T, *gorm.DB) {
 	return dest, ctx
 }
 
-func (r Repository[T]) FindOne(dest *T, conds ...any) (*T, *gorm.DB) {
-	ctx := r.DB.Find(dest, conds...)
-	return dest, ctx
+func (r Repository[T]) FindOne(conds ...any) (*T, *gorm.DB) {
+	var dest T
+	ctx := r.DB.Find(&dest, conds...)
+	return &dest, ctx
 }
 
-func (r Repository[T]) FindMany(dest []T, conds ...any) ([]T, *gorm.DB) {
-	ctx := r.DB.Find(dest, conds...)
-	return dest, ctx
+func (r Repository[T]) FindMany(conds ...any) ([]T, *gorm.DB) {
+	var dests []T
+	ctx := r.DB.Find(&dests, conds...)
+	return dests, ctx
 }
 
 func (r Repository[T]) Update(dest *T) (*T, *gorm.DB) {
