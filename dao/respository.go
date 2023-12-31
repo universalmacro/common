@@ -36,6 +36,9 @@ func (r Repository[T]) Create(dest *T) (*T, *gorm.DB) {
 func (r Repository[T]) FindOne(conds ...any) (*T, *gorm.DB) {
 	var dest T
 	ctx := r.DB.Find(&dest, conds...)
+	if ctx.RowsAffected == 0 {
+		return nil, ctx
+	}
 	return &dest, ctx
 }
 
