@@ -69,13 +69,13 @@ func (r Repository[T]) List(options ...Option) ([]T, *gorm.DB) {
 	return dests, ctx
 }
 
-func (r Repository[T]) Paginate(index, limit int64, options ...Option) (List[T], *gorm.DB) {
+func (r Repository[T]) Pagination(index, limit int64, options ...Option) (List[T], *gorm.DB) {
 	var dests []T
 	ctx := r.DB.Model(dests)
 	for _, opt := range options {
 		ctx = opt(ctx)
 	}
-	ctx = ctx.Limit(int(limit)).Offset(int(index-1) * int(limit)).Find(&dests)
+	ctx = ctx.Limit(int(limit)).Offset(int(index) * int(limit)).Find(&dests)
 	var count int64
 	ctx.Count(&count)
 	return List[T]{
