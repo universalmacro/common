@@ -57,3 +57,33 @@ func (r Repository[T]) Delete(dest *T) (*T, *gorm.DB) {
 	ctx := r.DB.Delete(dest)
 	return dest, ctx
 }
+
+func (r Repository[T]) List(options ...Option) ([]T, *gorm.DB) {
+	var dests []T
+	ctx := r.DB.Model(dests)
+	for _, opt := range options {
+
+		ctx = opt(ctx)
+	}
+	ctx = ctx.Find(&dests)
+	return dests, ctx
+}
+
+func (r Repository[T]) Paginate(index, limit int64, options ...Option) (List[T], *gorm.DB) {
+	var dests []T
+	ctx := r.DB.Model(dests)
+	for _, opt := range options {
+		ctx = opt(ctx)
+	}
+	ctx = ctx.Limit(int(limit)).Offset(int(index-1) * int(limit)).Find(&dests)
+	var count int64
+	ctx.Count(&count)
+	return List[T]{
+		Items: dests,
+		Pagination: Pagination{
+			Index: index,
+			Limit: limit,
+			Total: count,
+		},
+	}, ctx
+}

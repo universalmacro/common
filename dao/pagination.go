@@ -6,7 +6,7 @@ type List[T any] struct {
 }
 
 type Pagination struct {
-	Limit int `json:"limit"`
-	Total int `json:"total"`
-	Index int `json:"index"`
+	Limit int64 `json:"limit"`
+	Total int64 `json:"total"`
+	Index int64 `json:"index"`
 }
