@@ -1,4 +1,4 @@
-package sms
+package sendCloud
 
 import (
 	"crypto/md5"
@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/universalmacro/common/data"
+	"github.com/universalmacro/common/sms/models"
 )
 
 const sendCloudApi = "https://api.sendcloud.net/smsapi/send"
@@ -34,7 +35,7 @@ type SendCloud struct {
 }
 
 // SendCloud method SendWithTemplate implement SmsSender interface
-func (s *SendCloud) SendWithTemplate(to PhoneNumber, templateId string, vars map[string]string) bool {
+func (s *SendCloud) SendWithTemplate(to models.PhoneNumber, templateId string, vars map[string]string) bool {
 	client := http.Client{}
 	postValues := url.Values{}
 	params := s.Params(templateId, GeneratePhoneNumber(to), msgType(to), vars)
@@ -53,7 +54,7 @@ func (s *SendCloud) SendWithTemplate(to PhoneNumber, templateId string, vars map
 	return sendCloudJson.Result
 }
 
-func GeneratePhoneNumber(to PhoneNumber) string {
+func GeneratePhoneNumber(to models.PhoneNumber) string {
 	switch to.AreaCode {
 	case "86":
 		return to.Number
@@ -64,7 +65,7 @@ func GeneratePhoneNumber(to PhoneNumber) string {
 	}
 }
 
-func msgType(to PhoneNumber) string {
+func msgType(to models.PhoneNumber) string {
 	switch to.AreaCode {
 	case "86":
 		return "0"
