@@ -7,7 +7,10 @@ import (
 
 var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
-const charset = "0123456789"
+const numberCharset = "0123456789"
+const upperCharset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const lowerCharset = "abcdefghijklmnopqrstuvwxyz"
+const charset = upperCharset + lowerCharset + numberCharset
 
 func StringWithCharset(length int, charset string) string {
 	b := make([]byte, length)
@@ -17,6 +20,10 @@ func StringWithCharset(length int, charset string) string {
 	return string(b)
 }
 
-func RandomNumberString(length int) string {
+func RandomString(length int) string {
 	return StringWithCharset(length, charset)
+}
+
+func RandomNumberString(length int) string {
+	return StringWithCharset(length, numberCharset)
 }
