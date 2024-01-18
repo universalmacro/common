@@ -1,4 +1,4 @@
-package dao
+package data
 
 type PhoneNumber struct {
 	CountryCode string `json:"countryCode" gorm:"type:CHAR(6);index:,unique,composite:phone_number"`
