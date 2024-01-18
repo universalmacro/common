@@ -9,10 +9,14 @@ import (
 	"gorm.io/gorm"
 )
 
-var dbSingleton = singleton.NewSingleton[gorm.DB](CreateDBInstance, singleton.Lazy)
+var dbSingleton singleton.Singleton[gorm.DB] // singleton.NewSingleton[gorm.DB](CreateDBInstance, singleton.Lazy)
 
 func GetDBInstance() *gorm.DB {
 	return dbSingleton.Get()
+}
+
+func Init(constructor func() *gorm.DB) {
+	dbSingleton = singleton.NewSingleton[gorm.DB](constructor, singleton.Lazy)
 }
 
 func CreateDBInstance() *gorm.DB {
