@@ -6,7 +6,7 @@ on:
       - main
   workflow_dispatch:
 env:
-  PACKAGE_NAME: "@universalmacro/common"
+  PACKAGE_NAME: "universalmacro/common"
   WECOM_WEBHOOK_URL: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=f683698e-9790-42ef-a2be-25486a98e117"
 jobs:
   generate-typescript-client:

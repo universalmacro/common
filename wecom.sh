@@ -2,6 +2,7 @@ url=$1
 packageName=$2
 version=$3
 
+org=universalmacro
 generate_post_data()
 {
   cat <<EOF
