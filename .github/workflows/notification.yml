@@ -1,0 +1,21 @@
+name: Publish TS SDK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+env:
+  PACKAGE_NAME: "@universalmacro/common"
+  WECOM_WEBHOOK_URL: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=f683698e-9790-42ef-a2be-25486a98e117"
+jobs:
+  generate-typescript-client:
+    runs-on: ubuntu-latest
+    name: Publish TS SDK
+    steps:
+      # Checkout your code
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Notification
+        run: |
+          sh wecom.sh ${{env.WECOM_WEBHOOK_URL}} "${{env.PACKAGE_NAME}}" `git rev-parse HEAD | cut -c 1-7`
