@@ -8,7 +8,7 @@ generate_post_data()
 {
   "msgtype": "text",
   "text": {
-    "content": "$packageName@$version SDK released"
+    "content": "$packageName@$version SDK released\ngo get github.com/$org/$packageName@$version"
   }
 }
 EOF
