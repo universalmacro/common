@@ -1,6 +1,5 @@
 url=$1
-packageName=$2
-version=$3
+version=$2
 
 org=universalmacro
 generate_post_data()
@@ -9,7 +8,7 @@ generate_post_data()
 {
   "msgtype": "text",
   "text": {
-    "content": "$packageName@$version SDK released\ngo get github.com/$org/$packageName@$version"
+    "content": "$org@$version SDK released\ngo get github.com/$org/@$version"
   }
 }
 EOF
