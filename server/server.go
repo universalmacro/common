@@ -39,5 +39,8 @@ func IndexAndLimit(ctx *gin.Context) (index, limit int64) {
 	if marks, err := strconv.Atoi(ctx.Query("limit")); err != nil {
 		limit = int64(marks)
 	}
+	if limit == 0 {
+		limit = 1
+	}
 	return
 }
