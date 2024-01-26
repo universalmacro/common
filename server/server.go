@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/Depado/ginprom"
 	"github.com/gin-gonic/gin"
@@ -27,4 +28,16 @@ func CorsMiddleware() gin.HandlerFunc {
 		}
 		c.Next()
 	}
+}
+
+func IndexAndLimit(ctx *gin.Context) (index, limit int64) {
+	index = 0
+	limit = 10
+	if marks, err := strconv.Atoi(ctx.Query("index")); err != nil {
+		index = int64(marks)
+	}
+	if marks, err := strconv.Atoi(ctx.Query("limit")); err != nil {
+		limit = int64(marks)
+	}
+	return
 }
