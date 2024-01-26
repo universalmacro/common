@@ -45,7 +45,15 @@ func IndexAndLimit(ctx *gin.Context) (index, limit int64) {
 	return
 }
 
-func ID(ctx *gin.Context, path string) int64 {
+func Int64ID(ctx *gin.Context, path string) int64 {
+	return int64(IntID(ctx, path))
+}
+
+func IntID(ctx *gin.Context, path string) int {
 	id, _ := strconv.Atoi(ctx.Param(path))
-	return int64(id)
+	return id
+}
+
+func UintID(ctx *gin.Context, path string) uint {
+	return uint(IntID(ctx, path))
 }
