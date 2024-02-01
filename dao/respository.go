@@ -6,7 +6,7 @@ import (
 )
 
 type Repository[T any] struct {
-	DB *gorm.DB
+	*gorm.DB
 }
 
 func SingletonFactoryRepository[T any](db *gorm.DB) singleton.Singleton[Repository[T]] {
@@ -88,4 +88,22 @@ func (r Repository[T]) Pagination(index, limit int64, options ...Option) (List[T
 			Total: count,
 		},
 	}, ctx
+}
+
+func (this Repository[T]) Begin() *Repository[T] {
+	return NewRepository[T](this.DB.Begin())
+}
+
+func (this Repository[T]) Rollback() *Repository[T] {
+	this.DB.Rollback()
+	return &this
+}
+
+func (this Repository[T]) Commit() *Repository[T] {
+	this.DB.Commit()
+	return &this
+}
+
+func (this Repository[T]) Transaction(f func(tx *gorm.DB) error) {
+	this.DB.Transaction(f)
 }
