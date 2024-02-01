@@ -9,8 +9,8 @@ type Repository[T any] struct {
 	DB *gorm.DB
 }
 
-func NewSingletonRepository[T any](db *gorm.DB) singleton.Singleton[Repository[T]] {
-	return singleton.NewSingleton[Repository[T]](func() *Repository[T] {
+func SingletonFactoryRepository[T any](db *gorm.DB) singleton.Singleton[Repository[T]] {
+	return singleton.SingletonFactory[Repository[T]](func() *Repository[T] {
 		return NewRepository[T](db)
 	}, singleton.Eager)
 }

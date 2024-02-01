@@ -75,7 +75,7 @@ func (n *NodeConfigClient) GetConfig() *NodeConfig {
 	return &config
 }
 
-var nodeConfigClient = singleton.NewSingleton[NodeConfigClient](func() *NodeConfigClient {
+var nodeConfigClient = singleton.SingletonFactory[NodeConfigClient](func() *NodeConfigClient {
 	return newNodeConfigClient(config.GetString("core.apiUrl"), config.GetString("node.id"), config.GetString("node.secretKey"))
 }, singleton.Lazy)
 

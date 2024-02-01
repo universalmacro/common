@@ -21,14 +21,14 @@ const (
 	Lazy
 )
 
-func NewSingleton[T any](constructor func() *T, mode Mode) Singleton[T] {
+func SingletonFactory[T any](constructor func() *T, mode Mode) Singleton[T] {
 	switch mode {
 	case Eager:
 		return NewEagerSingleton[T](constructor)
 	case Lazy:
 		return NewLazySingleton[T](constructor)
 	}
-	return nil
+	panic("create singleton failed")
 }
 
 func NewEagerSingleton[T any](constructor func() *T) *EagerSingleton[T] {
