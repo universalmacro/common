@@ -22,12 +22,12 @@ func (h *Handler) Enabled(ctx context.Context, level slog.Level) bool {
 }
 
 func (h *Handler) Handle(ctx context.Context, r slog.Record) error {
-	fmt.Println(r.Message)
-	for _, l := range h.attr {
-		fmt.Printf("%s=%v ", l.Key, l.Value)
+	var fields []string
+	for _, attr := range h.attr {
+		fields = append(fields, fmt.Sprintf("%s=%v", attr.Key, attr.Value))
 	}
 	r.Attrs(func(a slog.Attr) bool {
-		fmt.Printf("%s=%v ", a.Key, a.Value)
+		fields = append(fields, fmt.Sprintf("%s=%v", a.Key, a.Value))
 		return true
 	})
 	return nil
