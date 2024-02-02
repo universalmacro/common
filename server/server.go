@@ -17,6 +17,11 @@ func RequestIDMiddleware() gin.HandlerFunc {
 	}
 }
 
+func GetRequestID(ctx *gin.Context) uint {
+	id, _ := ctx.Get("requestID")
+	return id.(uint)
+}
+
 func MetricsMiddleware(router *gin.Engine) {
 	p := ginprom.New(
 		ginprom.Engine(router),
