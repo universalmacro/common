@@ -8,7 +8,7 @@ import (
 	"github.com/universalmacro/common/sms/models"
 )
 
-func NewSmsSender(secretId, secretKey string) *SmsSender {
+func NewSmsSender(region, secretId, secretKey string) *SmsSender {
 	credential := common.NewCredential(
 		secretId,
 		secretKey,
@@ -31,6 +31,7 @@ type Config struct {
 type SmsSender struct {
 	credential *common.Credential
 	profile    *profile.ClientProfile
+	Region     string
 }
 
 func (s *SmsSender) SendWithConfig(to models.PhoneNumber, config Config, vars []string) error {

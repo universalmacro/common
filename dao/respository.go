@@ -23,7 +23,7 @@ func NewRepository[T any](db *gorm.DB) *Repository[T] {
 
 func (r Repository[T]) GetById(id uint) (*T, *gorm.DB) {
 	var dest T
-	ctx := r.DB.Find(&dest, id)
+	ctx := r.Find(&dest, id)
 	if ctx.RowsAffected == 0 {
 		return nil, ctx
 	}
@@ -37,7 +37,7 @@ func (r Repository[T]) Create(dest *T) (*T, *gorm.DB) {
 
 func (r Repository[T]) FindOne(conds ...any) (*T, *gorm.DB) {
 	var dest T
-	ctx := r.DB.Find(&dest, conds...)
+	ctx := r.Find(&dest, conds...)
 	if ctx.RowsAffected == 0 {
 		return nil, ctx
 	}

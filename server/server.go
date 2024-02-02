@@ -6,7 +6,16 @@ import (
 
 	"github.com/Depado/ginprom"
 	"github.com/gin-gonic/gin"
+	"github.com/universalmacro/common/snowflake"
 )
+
+func RequestIDMiddleware() gin.HandlerFunc {
+	requestIdGenetator := snowflake.NewIdGenertor(0)
+	return func(ctx *gin.Context) {
+		ctx.Set("requestID", requestIdGenetator.Uint())
+		ctx.Next()
+	}
+}
 
 func MetricsMiddleware(router *gin.Engine) {
 	p := ginprom.New(
@@ -18,15 +27,15 @@ func MetricsMiddleware(router *gin.Engine) {
 }
 
 func CorsMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(http.StatusNoContent)
+	return func(ctx *gin.Context) {
+		ctx.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		ctx.Writer.Header().Set("Access-Control-Allow-Methods", "*")
+		ctx.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		if ctx.Request.Method == "OPTIONS" {
+			ctx.AbortWithStatus(http.StatusNoContent)
 			return
 		}
-		c.Next()
+		ctx.Next()
 	}
 }
 
