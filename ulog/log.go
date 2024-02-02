@@ -21,7 +21,7 @@ func (h *Handler) Enabled(ctx context.Context, level slog.Level) bool {
 }
 
 func (h *Handler) Handle(ctx context.Context, e slog.Record) error {
-	fmt.Println(e)
+	fmt.Println(e.Message)
 	return nil
 }
 
