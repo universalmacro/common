@@ -21,11 +21,12 @@ func (h *Handler) Enabled(ctx context.Context, level slog.Level) bool {
 	return h.enabled <= level
 }
 
-func (h *Handler) Handle(ctx context.Context, e slog.Record) error {
-	fmt.Println(e.Message)
-	for _, attr := range h.attr {
-		fmt.Printf("%s=%v\n", attr.Key, attr.Value)
-	}
+func (h *Handler) Handle(ctx context.Context, r slog.Record) error {
+	fmt.Println(r.Message)
+	r.Attrs(func(a slog.Attr) bool {
+		fmt.Printf("%s=%v ", a.Key, a.Value)
+		return true
+	})
 	return nil
 }
 
