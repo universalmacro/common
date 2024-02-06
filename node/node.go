@@ -6,12 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
-
-	"github.com/universalmacro/common/config"
-	"github.com/universalmacro/common/singleton"
 )
 
-func newNodeConfigClient(apiUrl, nodeId, secretKey string) *NodeConfigClient {
+func NewNodeConfigClient(apiUrl, nodeId, secretKey string) *NodeConfigClient {
 	return &NodeConfigClient{
 		ApiUrl:    apiUrl,
 		NodeId:    nodeId,
@@ -73,12 +70,4 @@ func (n *NodeConfigClient) GetConfig() *NodeConfig {
 	var config NodeConfig
 	json.Unmarshal(body, &config)
 	return &config
-}
-
-var nodeConfigClient = singleton.SingletonFactory[NodeConfigClient](func() *NodeConfigClient {
-	return newNodeConfigClient(config.GetString("core.apiUrl"), config.GetString("node.id"), config.GetString("node.secretKey"))
-}, singleton.Lazy)
-
-func GetNodeConfigClient() *NodeConfigClient {
-	return nodeConfigClient.Get()
 }
