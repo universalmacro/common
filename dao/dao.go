@@ -15,3 +15,8 @@ func NewConnection(user, password, host, port, database string) (db *gorm.DB, er
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	return db, err
 }
+
+func AutoMigrate[T any](db *gorm.DB) {
+	var t T
+	db.AutoMigrate(&t)
+}
