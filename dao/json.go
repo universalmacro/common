@@ -33,3 +33,21 @@ func (j JsonEntity[T]) Value() (driver.Value, error) {
 func (j JsonEntity[T]) Entity() T {
 	return j.entity
 }
+
+type StringArray []string
+
+func (j *StringArray) Scan(value any) error {
+	if value == nil {
+		return nil
+	}
+	bytes, ok := value.([]byte)
+	if !ok {
+		return errors.New(fmt.Sprint("Failed to unmarshal JSONB value:", value))
+	}
+	err := json.Unmarshal(bytes, &j)
+	return err
+}
+
+func (j StringArray) Value() (driver.Value, error) {
+	return json.Marshal(j)
+}
