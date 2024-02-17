@@ -36,18 +36,15 @@ func (j JsonEntity[T]) Entity() T {
 
 type StringArray []string
 
-func (j *StringArray) Scan(value any) error {
-	if value == nil {
-		return nil
-	}
-	bytes, ok := value.([]byte)
-	if !ok {
-		return errors.New(fmt.Sprint("Failed to unmarshal JSONB value:", value))
-	}
-	err := json.Unmarshal(bytes, &j)
-	return err
+func (StringArray) GormDataType() string {
+	return "JSON"
 }
 
-func (j StringArray) Value() (driver.Value, error) {
-	return json.Marshal(j)
+func (s *StringArray) Scan(value any) error {
+	return json.Unmarshal(value.([]byte), s)
+}
+
+func (s StringArray) Value() (driver.Value, error) {
+	b, err := json.Marshal(s)
+	return b, err
 }
