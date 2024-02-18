@@ -51,7 +51,7 @@ type RedisConfig struct {
 }
 
 func (n *NodeConfigClient) GetConfig() *NodeConfig {
-	c := http.Client{Timeout: time.Duration(1) * time.Second}
+	c := http.Client{Timeout: time.Duration(10) * time.Second}
 	req, err := http.NewRequest("GET", n.ApiUrl+"/nodes/"+n.NodeId+"/config", nil)
 	req.Header.Add("ApiKey", n.SecretKey)
 	if err != nil {
