@@ -49,17 +49,17 @@ func (s StringArray) Value() (driver.Value, error) {
 	return b, err
 }
 
-type UnitArray []uint
+type UintArray []uint
 
-func (UnitArray) GormDataType() string {
+func (UintArray) GormDataType() string {
 	return "JSON"
 }
 
-func (s *UnitArray) Scan(value any) error {
+func (s *UintArray) Scan(value any) error {
 	return json.Unmarshal(value.([]byte), s)
 }
 
-func (s UnitArray) Value() (driver.Value, error) {
+func (s UintArray) Value() (driver.Value, error) {
 	b, err := json.Marshal(s)
 	return b, err
 }
