@@ -53,7 +53,7 @@ func NewMapConfig() *MapConfig {
 }
 
 func NewSingletonMapConfig() singleton.Singleton[MapConfig] {
-	return singleton.SingletonFactory[MapConfig](NewMapConfig, singleton.Lazy)
+	return singleton.SingletonFactory(NewMapConfig, singleton.Lazy)
 }
 
 func init() {

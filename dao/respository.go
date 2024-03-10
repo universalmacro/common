@@ -62,9 +62,8 @@ func (r Repository[T]) Delete(dest *T) (*T, *gorm.DB) {
 
 func (r Repository[T]) List(options ...Option) ([]T, *gorm.DB) {
 	var dests []T
-	ctx := r.DB.Model(dests)
+	ctx := r.DB
 	for _, opt := range options {
-
 		ctx = opt(ctx)
 	}
 	ctx = ctx.Find(&dests)
