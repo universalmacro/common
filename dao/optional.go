@@ -7,9 +7,9 @@ import (
 
 type Option func(*gorm.DB) *gorm.DB
 
-func Where(conds ...any) Option {
+func Where(query interface{}, args ...interface{}) Option {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where(conds)
+		return db.Where(query, args...)
 	}
 }
 
