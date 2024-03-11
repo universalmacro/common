@@ -21,7 +21,7 @@ func NewRepository[T any](db *gorm.DB) *Repository[T] {
 	}
 }
 
-func (r Repository[T]) GetById(id uint) (*T, *gorm.DB) {
+func (r *Repository[T]) GetById(id uint) (*T, *gorm.DB) {
 	var dest T
 	ctx := r.Find(&dest, id)
 	if ctx.RowsAffected == 0 {
@@ -30,12 +30,12 @@ func (r Repository[T]) GetById(id uint) (*T, *gorm.DB) {
 	return &dest, ctx
 }
 
-func (r Repository[T]) Create(dest *T) (*T, *gorm.DB) {
+func (r *Repository[T]) Create(dest *T) (*T, *gorm.DB) {
 	ctx := r.DB.Create(dest)
 	return dest, ctx
 }
 
-func (r Repository[T]) FindOne(conds ...any) (*T, *gorm.DB) {
+func (r *Repository[T]) FindOne(conds ...any) (*T, *gorm.DB) {
 	var dest T
 	ctx := r.Find(&dest, conds...)
 	if ctx.RowsAffected == 0 {
@@ -44,23 +44,23 @@ func (r Repository[T]) FindOne(conds ...any) (*T, *gorm.DB) {
 	return &dest, ctx
 }
 
-func (r Repository[T]) FindMany(conds ...any) ([]T, *gorm.DB) {
+func (r *Repository[T]) FindMany(conds ...any) ([]T, *gorm.DB) {
 	var dests []T
 	ctx := r.DB.Find(&dests, conds...)
 	return dests, ctx
 }
 
-func (r Repository[T]) Update(dest *T) (*T, *gorm.DB) {
+func (r *Repository[T]) Update(dest *T) (*T, *gorm.DB) {
 	ctx := r.DB.Save(dest)
 	return dest, ctx
 }
 
-func (r Repository[T]) Delete(dest *T) (*T, *gorm.DB) {
+func (r *Repository[T]) Delete(dest *T) (*T, *gorm.DB) {
 	ctx := r.DB.Delete(dest)
 	return dest, ctx
 }
 
-func (r Repository[T]) List(options ...Option) ([]T, *gorm.DB) {
+func (r *Repository[T]) List(options ...Option) ([]T, *gorm.DB) {
 	var dests []T
 	ctx := r.DB
 	for _, opt := range options {
@@ -70,7 +70,7 @@ func (r Repository[T]) List(options ...Option) ([]T, *gorm.DB) {
 	return dests, ctx
 }
 
-func (r Repository[T]) Pagination(index, limit int64, options ...Option) (List[T], *gorm.DB) {
+func (r *Repository[T]) Pagination(index, limit int64, options ...Option) (List[T], *gorm.DB) {
 	var dests []T
 	ctx := r.DB.Model(dests)
 	for _, opt := range options {
@@ -89,20 +89,20 @@ func (r Repository[T]) Pagination(index, limit int64, options ...Option) (List[T
 	}, ctx
 }
 
-func (this Repository[T]) Begin() *Repository[T] {
+func (this *Repository[T]) Begin() *Repository[T] {
 	return NewRepository[T](this.DB.Begin())
 }
 
-func (this Repository[T]) Rollback() *Repository[T] {
+func (this *Repository[T]) Rollback() *Repository[T] {
 	this.DB.Rollback()
-	return &this
+	return this
 }
 
-func (this Repository[T]) Commit() *Repository[T] {
+func (this *Repository[T]) Commit() *Repository[T] {
 	this.DB.Commit()
-	return &this
+	return this
 }
 
-func (this Repository[T]) Transaction(f func(tx *gorm.DB) error) {
+func (this *Repository[T]) Transaction(f func(tx *gorm.DB) error) {
 	this.DB.Transaction(f)
 }
