@@ -9,10 +9,10 @@ import (
 	"github.com/universalmacro/common/utils"
 )
 
-func NewSingletonJwtSigner(secret []byte) singleton.Singleton[JwtSigner] {
-	return singleton.SingletonFactory(func() *JwtSigner {
+func NewSingletonJwtSigner(secret []byte) func() *JwtSigner {
+	return singleton.EagerSingleton(func() *JwtSigner {
 		return NewJwtSigner(secret)
-	}, singleton.Eager)
+	})
 }
 
 func NewJwtSigner(secret []byte) *JwtSigner {

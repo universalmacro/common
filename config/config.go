@@ -19,41 +19,43 @@ type MapConfig struct {
 	config map[string]any
 }
 
-func (this *MapConfig) GetConfig() map[string]any {
-	return this.config
+func (m *MapConfig) GetConfig() map[string]any {
+	return m.config
 }
 
-func (this *MapConfig) SetValue(key string, value any) *MapConfig {
-	this.config[key] = value
-	return this
+func (m *MapConfig) SetValue(key string, value any) *MapConfig {
+	m.config[key] = value
+	return m
 }
 
-func (this *MapConfig) GetValue(key string) any {
-	return this.config[key]
+func (m *MapConfig) GetValue(key string) any {
+	return m.config[key]
 }
 
-func (this *MapConfig) GetString(key string) string {
-	return this.config[key].(string)
+func (m *MapConfig) GetString(key string) string {
+	return m.config[key].(string)
 }
 
-func (this *MapConfig) GetInt(key string) int {
-	return this.config[key].(int)
+func (m *MapConfig) GetInt(key string) int {
+	return m.config[key].(int)
 }
 
-func (this *MapConfig) GetBool(key string) bool {
-	return this.config[key].(bool)
+func (m *MapConfig) GetBool(key string) bool {
+	return m.config[key].(bool)
 }
 
-func (this *MapConfig) GetFloat64(key string) float64 {
-	return this.config[key].(float64)
+func (m *MapConfig) GetFloat64(key string) float64 {
+	return m.config[key].(float64)
 }
 
 func NewMapConfig() *MapConfig {
 	return &MapConfig{config: make(map[string]any)}
 }
 
-func NewSingletonMapConfig() singleton.Singleton[MapConfig] {
-	return singleton.SingletonFactory(NewMapConfig, singleton.Lazy)
+func NewSingletonMapConfig() func() *MapConfig {
+	return singleton.EagerSingleton(func() *MapConfig {
+		return NewMapConfig()
+	})
 }
 
 func init() {
