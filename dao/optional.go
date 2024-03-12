@@ -7,6 +7,13 @@ import (
 
 type Option func(*gorm.DB) *gorm.DB
 
+func ApplyOptions(db *gorm.DB, opts ...Option) *gorm.DB {
+	for _, opt := range opts {
+		db = opt(db)
+	}
+	return db
+}
+
 func Where(query interface{}, args ...interface{}) Option {
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where(query, args...)
