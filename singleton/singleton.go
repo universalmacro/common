@@ -24,9 +24,9 @@ const (
 func SingletonFactory[T any](constructor func() *T, mode Mode) Singleton[T] {
 	switch mode {
 	case Eager:
-		return NewEagerSingleton[T](constructor)
+		return NewEagerSingleton(constructor)
 	case Lazy:
-		return NewLazySingleton[T](constructor)
+		return NewLazySingleton(constructor)
 	}
 	panic("create singleton failed")
 }
@@ -40,7 +40,7 @@ func NewEagerSingleton[T any](constructor func() *T) *EagerSingleton[T] {
 type LazySingleton[T any] struct {
 	instance    *T
 	constructor func() *T
-	lock        sync.Mutex
+	once        sync.Once
 }
 
 func NewLazySingleton[T any](constructor func() *T) *LazySingleton[T] {
@@ -50,10 +50,9 @@ func NewLazySingleton[T any](constructor func() *T) *LazySingleton[T] {
 }
 
 func (s *LazySingleton[T]) Get() *T {
-	s.lock.Lock()
-	if s.instance == nil {
-		s.instance = s.constructor()
-	}
-	s.lock.Unlock()
+	s.once.Do(
+		func() {
+			s.instance = s.constructor()
+		})
 	return s.instance
 }

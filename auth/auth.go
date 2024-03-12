@@ -10,7 +10,7 @@ import (
 )
 
 func NewSingletonJwtSigner(secret []byte) singleton.Singleton[JwtSigner] {
-	return singleton.SingletonFactory[JwtSigner](func() *JwtSigner {
+	return singleton.SingletonFactory(func() *JwtSigner {
 		return NewJwtSigner(secret)
 	}, singleton.Eager)
 }
