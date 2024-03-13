@@ -1,6 +1,6 @@
 module github.com/universalmacro/common
 
-go 1.21.6
+go 1.22.1
 
 require (
 	github.com/Depado/ginprom v1.8.1
