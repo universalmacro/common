@@ -24,7 +24,7 @@ func NewSmsSender(region, secretId, secretKey string) *SmsSender {
 type Config struct {
 	Region     *string
 	AppId      string
-	SignName   string
+	SignName   *string
 	TemplateId string
 }
 
@@ -42,7 +42,9 @@ func (s *SmsSender) SendWithConfig(to models.PhoneNumber, config Config, vars []
 	client, _ := sms.NewClient(s.credential, region, s.profile)
 	request := sms.NewSendSmsRequest()
 	request.SmsSdkAppId = common.StringPtr(config.AppId)
-	request.SignName = common.StringPtr(config.SignName)
+	if config.SignName == nil {
+		request.SignName = common.StringPtr(*config.SignName)
+	}
 	request.TemplateParamSet = common.StringPtrs(vars)
 	request.TemplateId = common.StringPtr(config.TemplateId)
 	request.PhoneNumberSet = common.StringPtrs([]string{"+" + to.AreaCode + to.Number})

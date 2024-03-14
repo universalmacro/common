@@ -12,7 +12,7 @@ func ScanJson[T any](value any, j *T) error {
 	}
 	bytes, ok := value.([]byte)
 	if !ok {
-		return errors.New(fmt.Sprint("Failed to unmarshal JSONB value:", value))
+		return errors.New(fmt.Sprint("failed to unmarshal JSONB value:", value))
 	}
 
 	var result T
