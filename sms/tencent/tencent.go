@@ -42,7 +42,7 @@ func (s *SmsSender) SendWithConfig(to models.PhoneNumber, config Config, vars []
 	client, _ := sms.NewClient(s.credential, region, s.profile)
 	request := sms.NewSendSmsRequest()
 	request.SmsSdkAppId = common.StringPtr(config.AppId)
-	if config.SignName == nil {
+	if config.SignName != nil {
 		request.SignName = common.StringPtr(*config.SignName)
 	}
 	request.TemplateParamSet = common.StringPtrs(vars)
