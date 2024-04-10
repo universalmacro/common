@@ -48,8 +48,8 @@ func (j *JwtSigner) VerifyJwt(tokenString string) (jwt.MapClaims, error) {
 }
 
 type Password struct {
-	Password string `json:"password" gorm:"type:CHAR(128)"`
-	Salt     []byte `json:"salt"`
+	Password string `json:"password,omitempty" gorm:"type:CHAR(128)"`
+	Salt     []byte `json:"salt,omitempty"`
 }
 
 func (p *Password) SetPassword(password string) (string, []byte) {
