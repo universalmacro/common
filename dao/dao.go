@@ -2,7 +2,6 @@ package dao
 
 import (
 	"fmt"
-	"log/slog"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -14,7 +13,6 @@ func NewConnection(user, password, host, port, database string) (db *gorm.DB, er
 		user, password, host, port, database,
 	)
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	slog.Error(err.Error())
 	return db, err
 }
 
