@@ -45,5 +45,8 @@ func HashWithSalt(password string) (string, []byte) {
 func PasswordsMatch(hashedPassword, currPassword string,
 	salt []byte) bool {
 	var currPasswordHash = HashPassword(currPassword, salt)
+	if len(currPassword) == 0 {
+		return false
+	}
 	return hashedPassword == currPasswordHash
 }
